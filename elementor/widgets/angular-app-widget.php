@@ -65,7 +65,7 @@ class Elementor_Angular_App_Widget extends \Elementor\Widget_Base {
 			'scripts_list',
 			[
 				'type' => \Elementor\Controls_Manager::REPEATER,
-				'label' => esc_html__('Production script modules', 'angular-embed'),
+				'label' => esc_html__('Script modules', 'angular-embed'),
 				'fields' => [
 					[
 						'name' => 'script_source',
@@ -79,34 +79,6 @@ class Elementor_Angular_App_Widget extends \Elementor\Widget_Base {
 				'title_field' => '{{{ script_source }}}',
 				'prevent_empty' => false,
 			],
-		);
-
-		$this->add_control(
-			'dev_scripts_list',
-			[
-				'type' => \Elementor\Controls_Manager::REPEATER,
-				'label' => esc_html__('Development script modules', 'angular-embed'),
-				'fields' => [
-					[
-						'name' => 'script_source',
-						'type' => \Elementor\Controls_Manager::TEXT,
-						'label' => esc_html__('Source', 'angular-embed'),
-						'label_block' => true,
-						'placeholder' => 'http://localhost:4200/...',
-						'default' => '',
-					],
-				],
-				'title_field' => '{{{ script_source }}}',
-				'prevent_empty' => false,
-			],
-		);
-
-		$this->add_control(
-			'dev_mode',
-			[
-				'type' => \Elementor\Controls_Manager::SWITCHER,
-				'label' => esc_html__('Development', 'angular-embed'),
-      ],
 		);
 
 		$this->end_controls_section();
@@ -123,12 +95,7 @@ class Elementor_Angular_App_Widget extends \Elementor\Widget_Base {
   public function after_render() {
     $settings = $this->get_settings_for_display();
 
-    $scripts_list_setting = 'scripts_list';
-    if ($settings['dev_mode'] === 'yes') {
-      $scripts_list_setting = 'dev_' . $scripts_list_setting;
-    }
-    $scripts_list = $settings[$scripts_list_setting];
-
+    $scripts_list = $settings['scripts_list'];
     foreach ($scripts_list as $index => $script_item) {
       $script_id = 'ng-script-' . $index;
       $script_source = $script_item['script_source'];
